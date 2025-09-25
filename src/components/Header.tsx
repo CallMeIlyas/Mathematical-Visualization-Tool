@@ -23,7 +23,7 @@ const Header: React.FC = () => {
           
         <div className="flex space-x-3">
           <a
-            href="https://github.com/username/repo-name"
+            href="https://github.com/CallMeIlyas/Mathematical-Visualization-Tool"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 px-6 py-3 bg-gray-800 hover:bg-gray-900 text-white rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg"
