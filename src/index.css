@@ -5,3 +5,6 @@
 html.dark {
   color: white;
 }
+html, body {
+  overflow-x: hidden;
+}

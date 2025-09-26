@@ -131,11 +131,11 @@ function MainApp() {
         {/* Equation + Examples */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-8 transition-all duration-300">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Current Equation</h2>
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 mb-6">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 mb-6 w-full overflow-x-auto">
             <MathRenderer 
               equation={getLatexEquation(config)} 
               block={true}
-              className="text-center text-xl"
+              className="text-center text-xl inline-block min-w-max"
             />
           </div>
 

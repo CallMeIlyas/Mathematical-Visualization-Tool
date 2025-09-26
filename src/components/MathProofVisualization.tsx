@@ -269,7 +269,14 @@ const GradientDescent = ({ isPlaying, onReset }) => {
         Value: {f(currentPoint.x, currentPoint.y).toFixed(3)}
       </div>
       
-      <svg ref={svgRef} width="500" height="400" className="border rounded bg-white dark:bg-gray-800" />
+    <div className="relative w-full aspect-[4/3] border rounded bg-white dark:bg-gray-800">
+      <svg 
+        ref={svgRef} 
+        className="absolute inset-0 w-full h-full"
+        viewBox="0 0 500 400"
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </div>
       
       <button
         onClick={handleReset}
@@ -838,123 +845,131 @@ const GraphTheorySection = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            Graph Theory Algorithms
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            Visualize fundamental graph algorithms with step-by-step execution
-          </p>
-        </div>
-        
-        <div className="flex items-center space-x-3">
-          <select
-            value={algorithm}
-            onChange={(e) => setAlgorithm(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          >
-            {algorithms.map(alg => (
-              <option key={alg.id} value={alg.id}>{alg.name}</option>
-            ))}
-          </select>
-          
-          <button
-            onClick={handleAnimate}
-            disabled={isAnimating}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white rounded-lg font-medium"
-          >
-            {isAnimating ? 'Animating...' : 'Animate'}
-          </button>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <div className="border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 p-4">
-            <svg ref={svgRef} width="500" height="400" className="w-full h-auto" />
-          </div>
-          
-          {algorithm === 'dijkstra' && result && (
-            <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-              <p><strong>Current Step:</strong> {animationStep + 1} / {result.steps.length}</p>
-              {result.steps[animationStep] && (
-                <p><strong>Processing:</strong> Node {graph.nodes[result.steps[animationStep].current]?.label}</p>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
-            <h4 className="font-semibold mb-3">Algorithm Information</h4>
-            
-            {algorithm === 'dijkstra' && (
-              <div className="space-y-2 text-sm">
-                <p><strong>Dijkstra's Algorithm:</strong></p>
-                <p>• Finds shortest paths from source to all vertices</p>
-                <p>• Time Complexity: O((V + E) log V)</p>
-                <p>• Works only with non-negative edge weights</p>
-                <p>• Uses greedy approach with priority queue</p>
-                
-                <div className="mt-4 space-y-1">
-                  <p><strong>Legend:</strong></p>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-blue-500 rounded"></div>
-                    <span>Unvisited</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-red-500 rounded"></div>
-                    <span>Current</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-4 h-4 bg-green-500 rounded"></div>
-                    <span>Visited</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {algorithm === 'mst' && (
-              <div className="space-y-2 text-sm">
-                <p><strong>Minimum Spanning Tree:</strong></p>
-                <p>• Connects all vertices with minimum total weight</p>
-                <p>• Kruskal's: O(E log E) using Union-Find</p>
-                <p>• Prim's: O((V + E) log V) using priority queue</p>
-                <p>• Results in tree with V-1 edges</p>
-              </div>
-            )}
-
-            {algorithm === 'maxflow' && (
-              <div className="space-y-2 text-sm">
-                <p><strong>Maximum Flow:</strong></p>
-                <p>• Ford-Fulkerson method</p>
-                <p>• Finds maximum flow from source to sink</p>
-                <p>• Time Complexity: O(E × max_flow)</p>
-                <p>• Uses augmenting paths</p>
-              </div>
-            )}
-          </div>
-
-          {result && algorithm === 'dijkstra' && (
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
-              <h4 className="font-semibold mb-3">Final Distances</h4>
-              <div className="space-y-1 text-sm">
-                {graph.nodes.map((node, idx) => (
-                  <div key={idx} className="flex justify-between">
-                    <span>To {node.label}:</span>
-                    <span className="font-mono">
-                      {result.distances[idx] === Infinity ? '∞' : result.distances[idx]}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+<div className="space-y-6">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        Graph Theory Algorithms
+      </h3>
+      <p className="text-gray-600 dark:text-gray-400">
+        Visualize fundamental graph algorithms with step-by-step execution
+      </p>
     </div>
+    
+    <div className="flex flex-wrap items-center gap-3">
+      <select
+        value={algorithm}
+        onChange={(e) => setAlgorithm(e.target.value)}
+        className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white w-full sm:w-auto"
+      >
+        {algorithms.map(alg => (
+          <option key={alg.id} value={alg.id}>{alg.name}</option>
+        ))}
+      </select>
+      
+      <button
+        onClick={handleAnimate}
+        disabled={isAnimating}
+        className="px-4 py-2 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white rounded-lg font-medium w-full sm:w-auto"
+      >
+        {isAnimating ? 'Animating...' : 'Animate'}
+      </button>
+    </div>
+  </div>
+
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="lg:col-span-2">
+      <div className="border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-900 p-4">
+        {/* ✅ SVG responsif dengan rasio 4:3 */}
+        <div className="relative w-full aspect-[4/3]">
+          <svg 
+            ref={svgRef} 
+            className="absolute inset-0 w-full h-full"
+            preserveAspectRatio="xMidYMid meet"
+            viewBox="0 0 500 400"
+          />
+        </div>
+      </div>
+      
+      {algorithm === 'dijkstra' && result && (
+        <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
+          <p><strong>Current Step:</strong> {animationStep + 1} / {result.steps.length}</p>
+          {result.steps[animationStep] && (
+            <p><strong>Processing:</strong> Node {graph.nodes[result.steps[animationStep].current]?.label}</p>
+          )}
+        </div>
+      )}
+    </div>
+
+    <div className="space-y-4">
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+        <h4 className="font-semibold mb-3">Algorithm Information</h4>
+        
+        {algorithm === 'dijkstra' && (
+          <div className="space-y-2 text-sm">
+            <p><strong>Dijkstra's Algorithm:</strong></p>
+            <p>• Finds shortest paths from source to all vertices</p>
+            <p>• Time Complexity: O((V + E) log V)</p>
+            <p>• Works only with non-negative edge weights</p>
+            <p>• Uses greedy approach with priority queue</p>
+            
+            <div className="mt-4 space-y-1">
+              <p><strong>Legend:</strong></p>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-blue-500 rounded"></div>
+                <span>Unvisited</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-red-500 rounded"></div>
+                <span>Current</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-4 bg-green-500 rounded"></div>
+                <span>Visited</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {algorithm === 'mst' && (
+          <div className="space-y-2 text-sm">
+            <p><strong>Minimum Spanning Tree:</strong></p>
+            <p>• Connects all vertices with minimum total weight</p>
+            <p>• Kruskal's: O(E log E) using Union-Find</p>
+            <p>• Prim's: O((V + E) log V) using priority queue</p>
+            <p>• Results in tree with V-1 edges</p>
+          </div>
+        )}
+
+        {algorithm === 'maxflow' && (
+          <div className="space-y-2 text-sm">
+            <p><strong>Maximum Flow:</strong></p>
+            <p>• Ford-Fulkerson method</p>
+            <p>• Finds maximum flow from source to sink</p>
+            <p>• Time Complexity: O(E × max_flow)</p>
+            <p>• Uses augmenting paths</p>
+          </div>
+        )}
+      </div>
+
+      {result && algorithm === 'dijkstra' && (
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-4">
+          <h4 className="font-semibold mb-3">Final Distances</h4>
+          <div className="space-y-1 text-sm">
+            {graph.nodes.map((node, idx) => (
+              <div key={idx} className="flex justify-between">
+                <span>To {node.label}:</span>
+                <span className="font-mono">
+                  {result.distances[idx] === Infinity ? '∞' : result.distances[idx]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</div>
   );
 };
 
